@@ -26,7 +26,8 @@ module.exports = {
         if (!interaction.member.permissions.has([Permissions.FLAGS.KICK_MEMBERS, Permissions.FLAGS.BAN_MEMBERS])) {
             errEmbed.setTitle(":no_entry: Error!")
                 .setDescription(`You're not management!`)
-                .setFooter(interaction.user.tag, interaction.user.avatarURL());
+                .setFooter(interaction.user.tag, interaction.user.avatarURL())
+                .setColor("BLUE");
             
             interaction.reply({ embeds : [errEmbed], ephemeral: true });
             return;
@@ -35,7 +36,8 @@ module.exports = {
         if (member.permissions.has([Permissions.FLAGS.KICK_MEMBERS, Permissions.FLAGS.BAN_MEMBERS])) {
             errEmbed.setTitle(":no_entry: Error!")
                 .setDescription(`You cannot kicking management!`)
-                .setFooter(interaction.user.tag, interaction.user.avatarURL());
+                .setFooter(interaction.user.tag, interaction.user.avatarURL())
+                .setColor("BLUE");
         
             interaction.reply({ embeds : [errEmbed], ephemeral: true });
             return;
@@ -48,7 +50,8 @@ module.exports = {
         let embed = new MessageEmbed()
             .setTitle(":white_check_mark: Done!")
             .setDescription(`<@!${target.id}> has kicked! reason: ${reason}`)
-            .setFooter(interaction.user.tag, interaction.user.avatarURL());
+            .setFooter(interaction.user.tag, interaction.user.avatarURL())
+            .setColor("BLUE");
 
         interaction.reply({ embeds : [embed] })
         member.kick(reason)
