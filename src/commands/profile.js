@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders')
-const { MessageEmbed, User } = require("discord.js")
+const { MessageEmbed } = require("discord.js")
 
 function createTimeStamp(user) {
     return `${user.createdAt.getMonth()}/${user.createdAt.getDate()}/${user.createdAt.getFullYear()}`;
