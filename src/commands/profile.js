@@ -26,8 +26,6 @@ module.exports = {
 
         if (target !== null) {
             member = interaction.guild.members.cache.get(target.id);
-
-            console.log(member.roles);
             embed.setTitle(`:notepad_spiral: ${target.tag}'s Profile`)
                 .addField('**Name**', `\`${target.tag}\``, true)
                 .addField('**ID**', `\`${target.id}\``, true)
