@@ -28,6 +28,15 @@ for (const file of commandFiles) {
 	commands.push(command.data.toJSON());
 }
 
+client.on('guildMemberAdd', (member) => {
+	member.roles.add('912186335685664819')
+	console.log(`${member.user.tag} has join server!`);
+})
+
+client.on('guildMemberRemove', (member) => {
+	console.log(`${member.user.tag} has leave server!`);
+});
+
 const rest = new REST({ version: '9' }).setToken(token);
 
 (async () => {
