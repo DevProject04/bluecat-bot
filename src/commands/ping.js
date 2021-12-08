@@ -10,7 +10,7 @@ module.exports = {
             .setTitle(":ping_pong: Pong!")
             .setDescription(`${interaction.client.ws.ping}ms`)
             .setColor("BLUE")
-            .setFooter(`${interaction.user.username}#${interaction.user.discriminator}`, interaction.user.avatarURL());
+            .setFooter(interaction.user.tag, interaction.user.avatarURL());
 		await interaction.reply({ embeds: [pingEmbed] });
 	},
 };

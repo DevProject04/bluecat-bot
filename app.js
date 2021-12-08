@@ -2,7 +2,7 @@ const fs = require('fs');
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
 const { Client, Collection, Intents } = require('discord.js');
-const { clientId, token } = require('./src/config/config.json');
+const { clientId, token, memberId } = require('./src/config/config.json');
 
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
 client.commands = new Collection();
@@ -28,12 +28,13 @@ for (const file of commandFiles) {
 	commands.push(command.data.toJSON());
 }
 
-client.on('guildMemberAdd', (member) => {
-	member.roles.add('912186335685664819')
+client.on('guildMemberAdd', async (member) => {
+	let role = member.guild.roles.cache.get(memberId);
+	member.roles.add(role);
 	console.log(`${member.user.tag} has join server!`);
-})
+});
 
-client.on('guildMemberRemove', (member) => {
+client.on('guildMemberRemove', async (member) => {
 	console.log(`${member.user.tag} has leave server!`);
 });
 

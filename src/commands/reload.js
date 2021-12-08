@@ -1,7 +1,7 @@
 const fs = require("fs");
 const { MessageEmbed } = require("discord.js");
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { color, bot_owner } = require('../config/config.json');
+const { botOwner } = require('../config/config.json');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -10,7 +10,7 @@ module.exports = {
     async execute(interaction) {
         const commandFiles = fs.readdirSync('./src/commands').filter(file => file.endsWith('.js'));
 
-        if (interaction.user.id === bot_owner) {
+        if (interaction.user.id === botOwner) {
             for (const file of commandFiles) {
                 const command = require(`./${file}`);
 
@@ -25,8 +25,8 @@ module.exports = {
             const reloadEmbed = new MessageEmbed()
                 .setTitle(":repeat: Reload Complete!")
                 .setDescription(`All commands successful reloaded!`)
-                .setColor(color)
-                .setFooter(`${interaction.user.username}#${interaction.user.discriminator}`, interaction.user.avatarURL());
+                .setColor('BLUE')
+                .setFooter(interaction.user.tag, interaction.user.avatarURL());
 
 		    await interaction.reply({ embeds: [reloadEmbed] });
         } else {
@@ -34,7 +34,7 @@ module.exports = {
                 .setTitle(":octagonal_sign: Error!")
                 .setDescription(`You're not bot owner!`)
                 .setColor("#FF0000")
-                .setFooter(`${interaction.user.username}#${interaction.user.discriminator}`, interaction.user.avatarURL());
+                .setFooter(interaction.user.tag, interaction.user.avatarURL());
 
 		    await interaction.reply({ embeds: [errorEmbed] });
         }

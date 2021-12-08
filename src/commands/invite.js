@@ -10,7 +10,7 @@ module.exports = {
             .setTitle(":mailbox_with_mail: Invite Code!")
             .setDescription(`https://projecttl.net/invite/bluecat`)
             .setColor("BLUE")
-            .setFooter(`${interaction.user.username}#${interaction.user.discriminator}`, interaction.user.avatarURL());
+            .setFooter(interaction.user.tag, interaction.user.avatarURL());
 		await interaction.reply({ embeds: [pingEmbed] });
 	},
 };

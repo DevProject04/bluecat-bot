@@ -16,7 +16,7 @@ module.exports = {
 			const errEmbed = new MessageEmbed()
 				.setTitle(":octagonal_sign: Error!")
 				.setDescription(`There was an error while executing this command!`)
-				.setFooter(`${interaction.user.username}#${interaction.user.discriminator}`, interaction.user.avatarURL())
+				.setFooter(interaction.user.tag, interaction.user.avatarURL())
 				.setColor("#FF0000");
 
 			await interaction.reply({ embeds: [errEmbed], ephemeral: true });
