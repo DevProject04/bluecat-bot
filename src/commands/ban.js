@@ -8,13 +8,13 @@ module.exports = {
         .addUserOption(option =>
             option
                 .setName("members")
-                .setDescription("select member")
+                .setDescription("Select banned member")
                 .setRequired(true)
         )
         .addStringOption(option =>
             option
                 .setName("reason")
-                .setDescription("You can write ban reason")
+                .setDescription("Write ban reason")
                 .setRequired(false)
         ),
     async execute(interaction) {
@@ -54,6 +54,8 @@ module.exports = {
             .setColor("BLUE");
 
         interaction.reply({ embeds : [embed] })
-        member.ban(reason)
+
+        await target.send(`You're banned from ${interaction.guild.name}!\n\`\`\`diff\n[Reason]\n+: ${reason}\`\`\``);
+        member.ban();
     }
 }

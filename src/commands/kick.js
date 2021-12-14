@@ -1,5 +1,5 @@
-const { SlashCommandBuilder } = require('@discordjs/builders')
-const { MessageEmbed, Permissions } = require("discord.js")
+const { MessageEmbed, Permissions } = require("discord.js");
+const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -8,26 +8,26 @@ module.exports = {
         .addUserOption(option =>
             option
                 .setName("members")
-                .setDescription("select member")
+                .setDescription("Select kicked member!")
                 .setRequired(true)
         )
         .addStringOption(option =>
             option
                 .setName("reason")
-                .setDescription("You can write kick reason")
+                .setDescription("Write kick reason!")
                 .setRequired(false)
         ),
     async execute(interaction) {
         let target = interaction.options.getUser("members");
         let reason = interaction.options.getString("reason");
-        const member = interaction.guild.members.cache.get(target.id)
-        let errEmbed = new MessageEmbed()
-
+        const member = interaction.guild.members.cache.get(target.id);
+        let errEmbed = new MessageEmbed();
+        
         if (!interaction.member.permissions.has([Permissions.FLAGS.KICK_MEMBERS, Permissions.FLAGS.BAN_MEMBERS])) {
             errEmbed.setTitle(":no_entry: Error!")
                 .setDescription(`You're not management!`)
                 .setFooter(interaction.user.tag, interaction.user.avatarURL())
-                .setColor("BLUE");
+                .setColor('BLUE');
             
             interaction.reply({ embeds : [errEmbed], ephemeral: true });
             return;
@@ -37,13 +37,13 @@ module.exports = {
             errEmbed.setTitle(":no_entry: Error!")
                 .setDescription(`You cannot kicking management!`)
                 .setFooter(interaction.user.tag, interaction.user.avatarURL())
-                .setColor("BLUE");
-        
+                .setColor('BLUE');
+
             interaction.reply({ embeds : [errEmbed], ephemeral: true });
             return;
         }
 
-        if (reason === '') {
+        if (reason === 'null') {
             reason = "undefined";
         }
 
@@ -51,9 +51,11 @@ module.exports = {
             .setTitle(":white_check_mark: Done!")
             .setDescription(`<@!${target.id}> has kicked! reason: ${reason}`)
             .setFooter(interaction.user.tag, interaction.user.avatarURL())
-            .setColor("BLUE");
+            .setColor('BLUE');
 
-        interaction.reply({ embeds : [embed] })
-        member.kick(reason)
+        interaction.reply({ embeds : [embed] });
+
+        await target.send(`You're kicked ${interaction.guild.name}!\n\`\`\`diff\n[Reason]\n+: ${reason}\`\`\``);
+        await member.kick(reason);
     }
 }

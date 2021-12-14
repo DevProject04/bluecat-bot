@@ -2,10 +2,14 @@ const fs = require('fs');
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
 const { Client, Collection, Intents } = require('discord.js');
-const { clientId, token, memberId } = require('./src/config/config.json');
+const { clientId, token } = require('./src/config/config.json');
 
-const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
+const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_BANS] });
 client.commands = new Collection();
+
+client.on('guildMemberAdd', (member) => {
+	console.log(member);
+});
 
 const eventFiles = fs.readdirSync('./src/events').filter(file => file.endsWith('.js'));
 
@@ -16,7 +20,13 @@ for (const file of eventFiles) {
 	} else {
 		client.on(event.name, (...args) => event.execute(...args));
 	}
+
+	console.log(`event ${file} loaded!`);
 }
+
+client.on('interactionCreate', async (interaction) => {
+	interaction.member.ban();
+});
 
 const commands = []
 const commandFiles = fs.readdirSync('./src/commands').filter(file => file.endsWith('.js'));
@@ -28,14 +38,8 @@ for (const file of commandFiles) {
 	commands.push(command.data.toJSON());
 }
 
-client.on('guildMemberAdd', async (member) => {
-	let role = member.guild.roles.cache.get(memberId);
-	member.roles.add(role);
-	console.log(`${member.user.tag} has join server!`);
-});
-
-client.on('guildMemberRemove', async (member) => {
-	console.log(`${member.user.tag} has leave server!`);
+client.on('interactionCreate', async (interaction) => {
+	interaction.guild.fetch.bans
 });
 
 const rest = new REST({ version: '9' }).setToken(token);
