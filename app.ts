@@ -16,7 +16,7 @@ class Bot {
 	}
 
 	loadEvnet() {
-		const eventFiles = fs.readdirSync('./src/events').filter(file => file.endsWith('.js'));
+		const eventFiles = fs.readdirSync('./src/events').filter(file => file.endsWith('.ts'));
 
 		for (const file of eventFiles) {
 			const event = require(`./src/events/${file}`);
@@ -26,16 +26,16 @@ class Bot {
 				client.on(event.name, (...args) => event.execute(...args));
 			}
 
-			console.log(`event ${file} loaded!`);
+			console.log(`[EVENT] Loaded ${file}`);
 		}
 	}
 
 	loadCommand() {
-		const commandFiles = fs.readdirSync('./src/commands').filter(file => file.endsWith('.js'));
+		const commandFiles = fs.readdirSync('./src/commands').filter(file => file.endsWith('.js') || file.endsWith('.ts'));
 
 		for (const file of commandFiles) {
 			const command = require(`./src/commands/${file}`);
-			console.log(`Loaded ${command.data.name}!`);
+			console.log(`[COMMAND] Loaded ${command.data.name}`);
 			client.commands.set(command.data.name, command);
 			this.commands.push(command.data.toJSON());
 		}
@@ -46,14 +46,14 @@ class Bot {
 
 		(async () => {
 			try {
-				console.log('Started refreshing application (/) commands.');
+				console.log('[REGISTER] Started refreshing application (/) commands.');
 
 				await rest.put(
 					Routes.applicationCommands(clientId),
 					{ body: this.commands },
 				);
 
-				console.log('Successfully reloaded application (/) commands.');
+				console.log('[REGISTER] Successfully reloaded application (/) commands.');
 			} catch (error) {
 				console.error(error);
 			}

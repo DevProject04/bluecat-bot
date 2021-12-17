@@ -1,5 +1,5 @@
 const data = require('../utils/database');
-const { version } = require("../config/config.json");
+const { version } = require("../../package.json");
 
 module.exports = {
     name: "ready",
