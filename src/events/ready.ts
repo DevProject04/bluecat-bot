@@ -1,4 +1,4 @@
-const data = require('../utils/database');
+const data = require('../utils/database.ts');
 const { version } = require("../../package.json");
 
 module.exports = {

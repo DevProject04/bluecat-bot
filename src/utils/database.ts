@@ -1,4 +1,4 @@
-const fs = require('fs');
+require('fs');
 const sql = require('sqlite3').verbose();
 
 let db;
