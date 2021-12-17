@@ -1,14 +1,14 @@
-const fs = require('fs');
-const { REST } = require('@discordjs/rest');
-const { Routes } = require('discord-api-types/v9');
-const { Client, Collection, Intents } = require('discord.js');
+import fs from 'fs';
+import { REST } from '@discordjs/rest';
+import { Routes } from 'discord-api-types/v9';
+import { Client, Collection, Intents } from 'discord.js';
 const { clientId, token } = require('./src/config/config.json');
 
-const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_BANS] });
+const client: any = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_BANS] });
 client.commands = new Collection();
 
 class Bot {
-	commands = []
+	commands: Array<JSON> = []
 	init() {
 		this.loadEvnet();
 		this.loadCommand();
@@ -16,14 +16,14 @@ class Bot {
 	}
 
 	loadEvnet() {
-		const eventFiles = fs.readdirSync('./src/events').filter(file => file.endsWith('.ts'));
+		const eventFiles = fs.readdirSync('./src/events').filter((file: string) => file.endsWith('.ts'));
 
 		for (const file of eventFiles) {
 			const event = require(`./src/events/${file}`);
 			if (event.once) {
-				client.once(event.name, (...args) => event.execute(...args));
+				client.once(event.name, (...args: any) => event.execute(...args));
 			} else {
-				client.on(event.name, (...args) => event.execute(...args));
+				client.on(event.name, (...args: any) => event.execute(...args));
 			}
 
 			console.log(`[EVENT] Loaded ${file}`);
@@ -31,7 +31,7 @@ class Bot {
 	}
 
 	loadCommand() {
-		const commandFiles = fs.readdirSync('./src/commands').filter(file => file.endsWith('.js') || file.endsWith('.ts'));
+		const commandFiles = fs.readdirSync('./src/commands').filter((file: string) => file.endsWith('.js') || file.endsWith('.ts'));
 
 		for (const file of commandFiles) {
 			const command = require(`./src/commands/${file}`);
