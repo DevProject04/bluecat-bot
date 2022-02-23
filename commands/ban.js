@@ -24,9 +24,9 @@ module.exports = {
         let errEmbed = new MessageEmbed()
 
         if (!interaction.member.permissions.has([Permissions.FLAGS.KICK_MEMBERS, Permissions.FLAGS.BAN_MEMBERS])) {
-            errEmbed.setTitle(":no_entry: Error!")
-                .setDescription(`You're not management!`)
-                .setFooter(interaction.user.tag, interaction.user.avatarURL())
+            errEmbed.setTitle("<a:no_marking:923823041564278805> **Error!**")
+                .setDescription("관리자 전용 명령어입니다.")
+                .setFooter({ text: interaction.user.tag, iconURL: interaction.user.avatarURL() })
                 .setColor("BLUE");
             
             interaction.reply({ embeds : [errEmbed], ephemeral: true });
@@ -34,11 +34,10 @@ module.exports = {
         }
 
         if (member.permissions.has([Permissions.FLAGS.KICK_MEMBERS, Permissions.FLAGS.BAN_MEMBERS])) {
-            errEmbed.setTitle(":no_entry: Error!")
-                .setDescription(`You cannot ban management!`)
-                .setFooter(interaction.user.tag, interaction.user.avatarURL())
+            errEmbed.setTitle("<a:no_marking:923823041564278805> **Error!**")
+                .setDescription("관리자를 차단처리 하실 수 없습니다.")
+                .setFooter({ text: interaction.user.tag, iconURL: interaction.user.avatarURL() })
                 .setColor("BLUE");
-        
             interaction.reply({ embeds : [errEmbed], ephemeral: true });
             return;
         }
@@ -48,9 +47,9 @@ module.exports = {
         }
 
         let embed = new MessageEmbed()
-            .setTitle(":white_check_mark: Done!")
-            .setDescription(`<@!${target.id}> has banned! reason: ${reason}`)
-            .setFooter(interaction.user.tag, interaction.user.avatarURL())
+            .setTitle("<a:checking:923822230255845396> **Done!**")
+            .setDescription(`<@!${target.id}>님이 영구차단 처리 되셨습니다. reason: \`${reason}\``)
+            .setFooter({ text: interaction.user.tag, iconURL: interaction.user.avatarURL() })
             .setColor("BLUE");
 
         interaction.reply({ embeds : [embed] })

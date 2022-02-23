@@ -9,15 +9,14 @@ module.exports = {
     execute(interaction) {
         const embed = new MessageEmbed()
             .setTitle(':information_source: Help!')
-            .setDescription('This is command list')
+            .setDescription('명령어 리스트 입니다.')
             .setColor('BLUE')
             .setFooter(interaction.user.tag, interaction.user.avatarURL());
 
-        const commandFiles = fs.readdirSync('./src/commands/').filter(file => file.endsWith('.js'));
-
+        const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
         for (const file of commandFiles) {
             const command = require(`../commands/${file}`);
-            embed.addField(`**${command.data.name}**`, ` ${command.data.description}`, true);
+            embed.addField(`**${command.data.name}**`, `${command.data.description}`, true);
         }
 
         return void interaction.reply({ embeds : [embed] });
