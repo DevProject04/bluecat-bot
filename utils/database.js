@@ -56,10 +56,6 @@ module.exports = {
         });
     },
     getWarnCountLimit(guild) {
-        connection.query(`select limit_warn_count from server_list where id = ${guild.id};`, function (err, results) {
-            if (err) console.log(err);
-            return results[0].warn_count;
-        });
     },
     setWarnCountLimit(guild, value) {
         connection.query(`update table server_list limit_warn_count = ${value} where id = '${guild.id}';`, function (err) {
@@ -67,10 +63,6 @@ module.exports = {
         });
     },
     getWarn(guild, user) {
-        const sql = `select warn_count from d_${guild.id} where id = ${user.id};`;
-        const result = connection.query(sql);
-
-        console.log(result);
     },
     setWarn(guild, user, value) {
         connection.query(`update table d_${guild.id} warn_count = ${value} where id = ${user.id};`, function (err) {
