@@ -11,16 +11,16 @@ function joinTimeStamp(member) {
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName("profile")
-        .setDescription("You can select members")
+        .setName("userinfo")
+        .setDescription("유저 정보를 확인 할 수 있습니다.")
         .addUserOption(option =>
             option
-                .setName("members")
-                .setDescription("select member")
+                .setName("member")
+                .setDescription("확인할 유저를 선택해 주세요.")
                 .setRequired(false)
         ),
     async execute(interaction) {
-        let target = interaction.options.getUser("members");
+        let target = interaction.options.getUser("member");
         let embed = new MessageEmbed();
         let member;
 
@@ -37,9 +37,7 @@ module.exports = {
                 .setFooter(interaction.user.tag, interaction.user.avatarURL())
                 .setTimestamp()
                 .setColor("BLUE");
-            
-            interaction.reply({ embeds : [embed] });
-            return;
+            return await interaction.reply({ embeds : [embed] });
         }
 
         member = interaction.guild.members.cache.get(interaction.user.id)
@@ -55,6 +53,6 @@ module.exports = {
             .setTimestamp()
             .setColor("BLUE");
 
-        interaction.reply({ embeds : [embed] });
+        await interaction.reply({ embeds : [embed] });
     }
 }

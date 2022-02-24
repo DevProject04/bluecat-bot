@@ -4,24 +4,24 @@ const { MessageEmbed, Permissions } = require("discord.js")
 module.exports = {
     data: new SlashCommandBuilder()
         .setName("ban")
-        .setDescription("You can ban members")
+        .setDescription("유저를 영구차단 하실 수 있습니다.")
         .addUserOption(option =>
             option
-                .setName("members")
-                .setDescription("Select banned member")
+                .setName("member")
+                .setDescription("영구차단할 유저를 선택해 주세요.")
                 .setRequired(true)
         )
         .addStringOption(option =>
             option
                 .setName("reason")
-                .setDescription("Write ban reason")
+                .setDescription("영구차단 사유를 입력해 주세요.")
                 .setRequired(false)
         ),
     async execute(interaction) {
-        let target = interaction.options.getUser("members");
+        const target = interaction.options.getUser("member");
         let reason = interaction.options.getString("reason");
         const member = interaction.guild.members.cache.get(target.id)
-        let errEmbed = new MessageEmbed()
+        const errEmbed = new MessageEmbed()
 
         if (!interaction.member.permissions.has([Permissions.FLAGS.KICK_MEMBERS, Permissions.FLAGS.BAN_MEMBERS])) {
             errEmbed.setTitle("<a:no_marking:923823041564278805> **Error!**")
@@ -46,7 +46,7 @@ module.exports = {
             reason = "undefined";
         }
 
-        let embed = new MessageEmbed()
+        const embed = new MessageEmbed()
             .setTitle("<a:checking:923822230255845396> **Done!**")
             .setDescription(`<@!${target.id}>님이 영구차단 처리 되셨습니다. reason: \`${reason}\``)
             .setFooter({ text: interaction.user.tag, iconURL: interaction.user.avatarURL() })
@@ -54,7 +54,7 @@ module.exports = {
 
         interaction.reply({ embeds : [embed] })
 
-        await target.send(`You're banned from ${interaction.guild.name}!\n\`\`\`diff\n[Reason]\n+: ${reason}\`\`\``);
+        await target.send(`당신은 ${interaction.guild.name} 서버에서 영구차단 조치가 되었습니다.!\n\`\`\`diff\nReason\n+: ${reason}\`\`\``);
         member.ban();
     }
 }

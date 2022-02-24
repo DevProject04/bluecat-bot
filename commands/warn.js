@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders')
 const { MessageEmbed, Permissions } = require("discord.js")
+const database = require('../utils/database');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -45,15 +46,32 @@ module.exports = {
             reason = "undefined";
         }
 
-        let embed = new MessageEmbed()
+        let warn_count = database.getWarn(interaction.guild, target)
+        if (warn_count++ === 3) {
+            const banEmbed = new MessageEmbed()
             .setTitle("<a:checking:923822230255845396> **Done!**")
-            .setDescription(`<@!${target.id}>님에게 경고 처리를 하였습니다. reason: \`${reason}\``)
+            .setDescription(`<@!${target.id}>님이 ${database.getWarnCountLimit()}회 경고로 영구차단 처리 되셨습니다. reason: \`${reason}\``)
+            .setFooter({ text: interaction.user.tag, iconURL: interaction.user.avatarURL() })
+            .setColor("BLUE");
+
+            await interaction.reply({ embeds : [banEmbed] })
+
+            member.ban();
+            return await target.send(`당신은 ${interaction.guild.name} 서버에서 영구차단 조치가 되었습니다.!\n\`\`\`diff\nReason\n+: ${reason}\`\`\``);
+        }
+
+        const embed = new MessageEmbed()
+            .setTitle("<a:checking:923822230255845396> **Done!**")
+            .setDescription(`<@!${target.id}>님에게 경고 처리를 하였습니다.`)
+            .addField("**처리자**", `<@!${interaction.user.id}>`, true)
+            .addField("**경고사유**", `\`${reason}\``, true)
+            .addField("**누적경고 수**", `${database.getWarn(interaction.guild, target)}회`, true)
             .setFooter({ text: interaction.user.tag, iconURL: interaction.user.avatarURL() })
             .setColor("BLUE");
 
         interaction.reply({ embeds : [embed] })
 
-        await target.send(`You're banned from ${interaction.guild.name}!\n\`\`\`diff\n[Reason]\n+: ${reason}\`\`\``);
-        member.ban();
+        await target.send(`You're banned from ${interaction.guild.name}!\n\`\`\`diff\nReason\n+: ${reason}\`\`\``);
+        database.addWarn(interaction.guild, target);
     }
 }
