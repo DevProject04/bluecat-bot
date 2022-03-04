@@ -1,84 +1,28 @@
-const mysql = require('mysql');
 const { dbInfo } = require('../config.json');
+const mysql = require('mysql');
 
-const connection = new mysql.createConnection({
-    host: dbInfo.host,
-    user: dbInfo.username,
-    password: dbInfo.password,
-    database: dbInfo.dbName
-})
+let connection;
+(async () => {
+    connection = mysql.createConnection({
+        host: dbInfo.host,
+        user: dbInfo.username,
+        password: dbInfo.password,
+        database: dbInfo.dbName
+    });
+});
+
+console.log('connected to: %s', dbInfo.host);
+
+function close() {
+    return new Promise((resolve, reject) => {
+        this.connection.end(err => {
+            if (err)
+                return reject(err);
+            resolve();
+        });
+    });
+}
 
 module.exports = {
-    conn: connection,
-    connect() {
-        connection.connect(function (err) {
-            if (err) {
-                console.error(`Error connecting: ${err.stack}`);
-                return
-            }
-
-            console.log(`Connected as id ${connection.threadId}`);
-        })
-    },
-    createTable(guild) {
-        connection.query(`create table if not exists d_${guild.id}(id varchar(18) not null, warn_count int not null, primary key(id));`, function (err) {
-            if (err) console.error(err);
-            console.log(`create table: d_${guild.id}`);
-        });
-        
-        connection.query(`insert into server_list values('${guild.id}', 3);`, function (err) {
-            if (err) console.error(err);
-            console.log(`create table: d_${guild.id}`);
-        });
-
-        guild.members.fetch().then(members => {
-            members.forEach(member => {
-                connection.query(`insert into d_${guild.id} values(${member.id}, 0);`, function (err) {
-                    if (err) console.error(err);
-                });
-            });
-        });
-    },
-    dropTable(guild) {
-        connection.query(`drop table d_${guild.id};`, function (err) {
-            if (err) console.error(err);
-            console.log(`drop table: d_${guild.id}`);
-        });
-    },
-    addUser(guild, user) {
-        connection.query(`insert into d_${guild.id} values(${user.id}, 0);`, function (err) {
-            if (err) console.error(err);
-        });
-    },
-    removeUser(guild, user) {
-        connection.query(`delete from d_${guild.id} where id = ${user.id};`, function (err) {
-            if (err) console.error(err);
-        });
-    },
-    getWarnCountLimit(guild) {
-    },
-    setWarnCountLimit(guild, value) {
-        connection.query(`update table server_list limit_warn_count = ${value} where id = '${guild.id}';`, function (err) {
-            if (err) console.log(err);
-        });
-    },
-    getWarn(guild, user) {
-    },
-    setWarn(guild, user, value) {
-        connection.query(`update table d_${guild.id} warn_count = ${value} where id = ${user.id};`, function (err) {
-            if (err) console.error(err);
-            console.log(`set ${user.username}'s warn count: ${value}`)
-        });
-    },
-    addWarn(guild, user) {
-        let warn = this.getWarn(guild, user);
-        this.setWarn(guild, user, warn++);
-    },
-    removeWarn(guild, user) {
-        let warn = this.getWarn(guild, user);
-        this.getWarn(guild, user, warn--);
-    },
-    disconnect() {
-        connection.end();
-    }
+    db: connection
 }

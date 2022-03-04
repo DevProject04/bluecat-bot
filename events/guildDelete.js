@@ -1,8 +1,8 @@
-const database = require('../utils/database');
+const data = require('../utils/data');
 
 module.exports = {
     name: 'guildDelete',
     async execute(guild) {
-        database.dropTable(guild);
+        data.dropTable(guild);
     }
 }

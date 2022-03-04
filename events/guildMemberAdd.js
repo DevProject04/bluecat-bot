@@ -1,9 +1,8 @@
-const { addUser } = require('../utils/database');
-const database = require('../utils/database');
+const data = require('../utils/data');
 
 module.exports = {
     name: 'guildMemberAdd',
     async execute(member) {
-        addUser(member.guild, member.user);
+        data.addUser(member.guild, member.user);
     }
 }
