@@ -1,4 +1,4 @@
-const data = require('../utils/data');
+const data = require('../../utils/data');
 
 module.exports = {
     name: 'guildMemberAdd',

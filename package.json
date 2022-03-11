@@ -6,10 +6,7 @@
     "@discordjs/rest": "^0.1.0-canary.0",
     "discord-api-types": "^0.24.0",
     "discord.js": "^13.3.1",
-    "mysql": "^2.18.1"
-  },
-  "devDependencies": {
-    "@types/sqlite3": "^3.1.8"
+    "mysql2": "^2.3.3"
   },
   "compilerOptions": {
     "target": "es2022",

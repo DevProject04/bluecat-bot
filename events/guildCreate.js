@@ -1,8 +1,8 @@
-const data = require('../utils/data');
+const { createTable } = require('../utils/data');
 
 module.exports = {
     name: 'guildCreate',
     async execute(guild) {
-        data.createTable(guild);
+        await createTable(guild);
     }
 }

@@ -1,7 +1,6 @@
 const fs = require('fs');
 const { MessageEmbed } = require("discord.js");
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { db } = require('../utils/database');
 const { botOwner } = require('../config.json');
 
 const clean = async (text) => {
