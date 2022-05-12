@@ -1,15 +1,25 @@
 {
   "name": "bluecat-bot",
   "version": "0.1.0",
+  "description": "Discord management bot",
+  "main": "app.ts",
   "dependencies": {
     "@discordjs/builders": "^0.8.2",
     "@discordjs/rest": "^0.1.0-canary.0",
     "discord-api-types": "^0.24.0",
-    "discord.js": "^13.3.1",
-    "mysql": "^2.18.1"
+    "discord.js": "^13.3.1"
   },
   "devDependencies": {
-    "@types/sqlite3": "^3.1.8"
+    "mongodb": "^4.6.0",
+    "ts-node": "^10.7.0",
+    "ts-node-dev": "^1.1.8",
+    "typescript": "^4.6.4"
+  },
+  "scripts": {
+    "start:dev": "NODE_ENV=development node --respawn --transfile-only app.js",
+    "start:build": "NODE_ENV=proudction node build/index.js",
+    "start": "NODE_ENV=production node app.js",
+    "build": "tsc"
   },
   "compilerOptions": {
     "target": "es2022",

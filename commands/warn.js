@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders')
 const { MessageEmbed, Permissions } = require("discord.js")
-const data = require('../utils/data');
+const data = require('../utils/database');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -72,6 +72,6 @@ module.exports = {
         interaction.reply({ embeds : [embed] })
 
         await target.send(`You're banned from ${interaction.guild.name}!\n\`\`\`diff\nReason\n+: ${reason}\`\`\``);
-        //data.addWarn(interaction.guild, target);
+        await data.addWarn(interaction.guild, target);
     }
 }
