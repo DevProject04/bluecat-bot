@@ -1,8 +1,6 @@
-const data = require('../utils/data');
+import { createTable } from "../utils/data";
 
-module.exports = {
-    name: 'guildCreate',
-    async execute(guild) {
-        data.createTable(guild);
-    }
+export const name = "guildCreate";
+export async function execute(guild) {
+	createTable(guild);
 }

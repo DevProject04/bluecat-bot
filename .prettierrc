@@ -1,0 +1,8 @@
+{
+	"useTabs": true,
+	"singleQuote": false,
+	"trailingComma": "none",
+	"printWidth": 150,
+	"pluginSearchDirs": ["."],
+	"overrides": [{ "files": "*.js" }]
+}
