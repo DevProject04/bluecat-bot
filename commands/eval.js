@@ -18,8 +18,9 @@ export const data = new SlashCommandBuilder()
 	.setDescription("봇 주인용 커맨드 입니다.")
 	.addStringOption((option) => option.setName("code").setDescription("js 코드를 입력해 주세요!").setRequired(true));
 export async function execute(interaction) {
+	let embed = new MessageEmbed();
 	if (interaction.user.id !== botOwner) {
-		const errorEmbed = new MessageEmbed()
+		embed
 			.setTitle("<a:no_marking:923823041564278805> **Error!**")
 			.setDescription("You're not bot owner!")
 			.setColor("BLUE")
@@ -28,7 +29,7 @@ export async function execute(interaction) {
 				iconURL: interaction.user.avatarURL()
 			});
 
-		return await interaction.reply({ embeds: [errorEmbed] });
+		return await interaction.reply({ embeds: [embed] });
 	}
 
 	let code = interaction.options.getString("code");
@@ -48,7 +49,7 @@ export async function execute(interaction) {
 		let evaled = await eval(code);
 		let cleaned = await clean(evaled);
 
-		const embed = new MessageEmbed()
+		embed
 			.setTitle("<a:checking:923822230255845396> **Complete!**")
 			.setDescription("The code succesfully run!")
 			.addFields("**CODE**", `\`\`\`js\n${code}\n\`\`\``)
@@ -72,7 +73,7 @@ export async function execute(interaction) {
 		embed.addFields("**RESULT**", `\`\`\`js\n${cleaned}\n\`\`\``);
 		await interaction.reply({ embeds: [embed] });
 	} catch (err) {
-		const embed = new MessageEmbed()
+		embed
 			.setTitle("<a:no_marking:923823041564278805> **Error!**")
 			.setDescription("Maybe your code have some error...")
 			.addFields("**CODE**", `\`\`\`js\n${code}\n\`\`\``)

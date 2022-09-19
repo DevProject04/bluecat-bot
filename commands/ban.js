@@ -10,10 +10,10 @@ export async function execute(interaction) {
 	const target = interaction.options.getUser("member");
 	let reason = interaction.options.getString("reason");
 	const member = interaction.guild.members.cache.get(target.id);
-	const errEmbed = new MessageEmbed();
+	let embed = new MessageEmbed();
 
 	if (!interaction.member.permissions.has([Permissions.FLAGS.KICK_MEMBERS, Permissions.FLAGS.BAN_MEMBERS])) {
-		errEmbed
+		embed
 			.setTitle("<a:no_marking:923823041564278805> **Error!**")
 			.setDescription("관리자 전용 명령어입니다.")
 			.setFooter({
@@ -22,12 +22,12 @@ export async function execute(interaction) {
 			})
 			.setColor("BLUE");
 
-		interaction.reply({ embeds: [errEmbed], ephemeral: true });
+		interaction.reply({ embeds: [embed], ephemeral: true });
 		return;
 	}
 
 	if (member.permissions.has([Permissions.FLAGS.KICK_MEMBERS, Permissions.FLAGS.BAN_MEMBERS])) {
-		errEmbed
+		embed
 			.setTitle("<a:no_marking:923823041564278805> **Error!**")
 			.setDescription("관리자를 차단처리 하실 수 없습니다.")
 			.setFooter({
@@ -35,7 +35,7 @@ export async function execute(interaction) {
 				iconURL: interaction.user.avatarURL()
 			})
 			.setColor("BLUE");
-		interaction.reply({ embeds: [errEmbed], ephemeral: true });
+		interaction.reply({ embeds: [embed], ephemeral: true });
 		return;
 	}
 
@@ -43,7 +43,7 @@ export async function execute(interaction) {
 		reason = "undefined";
 	}
 
-	const embed = new MessageEmbed()
+	embed
 		.setTitle("<a:checking:923822230255845396> **Done!**")
 		.setDescription(`<@!${target.id}>님이 영구차단 처리 되셨습니다. reason: \`${reason}\``)
 		.setFooter({

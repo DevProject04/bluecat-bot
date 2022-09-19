@@ -1,16 +1,15 @@
 import { readdirSync } from "fs";
 import { REST } from "@discordjs/rest";
-import { Routes } from "discord-api-types/v10";
-import { Client, Collection, Intents } from "discord.js";
+import { GatewayIntentBits, Routes } from "discord-api-types/v10";
+import { Client, Collection } from "discord.js";
 import { clientId, token } from "./config.json";
 
 const client = new Client({
 	intents: [
-		Intents.FLAGS.GUILDS,
-		Intents.FLAGS.GUILD_MESSAGES,
-		Intents.FLAGS.DIRECT_MESSAGES,
-		Intents.FLAGS.GUILD_PRESENCES,
-		Intents.FLAGS.GUILD_BANS
+		GatewayIntentBits.GuildMessages,
+		GatewayIntentBits.DirectMessages,
+		GatewayIntentBits.GuildPresences,
+		GatewayIntentBits.GuildBans
 	],
 	partials: ["CHANNEL"]
 });
